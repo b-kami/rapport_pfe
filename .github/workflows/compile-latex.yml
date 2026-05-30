@@ -22,8 +22,8 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
-          # The action will automatically run pdflatex (or latexmk by default)
-          # and output main.pdf
+          latexmk_use_xelatex: true
+          # The action will run xelatex to support fontspec and output main.pdf
 
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
