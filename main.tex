@@ -725,55 +725,59 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
 
 \begin{figure}[H]
     \centering
-    \resizebox{0.85\textwidth}{!}{
+    \resizebox{0.9\textwidth}{!}{
     \begin{tikzpicture}[
-        node distance=1.5cm and 2cm,
+        node distance=2cm and 2cm,
         every node/.style={font=\sffamily\small, align=center},
-        cloud/.style={ellipse, draw, fill=blue!10, minimum width=3cm, minimum height=1.5cm, drop shadow, font=\sffamily\small\bfseries},
-        gateway/.style={rectangle, draw, fill=yellow!10, rounded corners, minimum width=3cm, minimum height=1.2cm, drop shadow, font=\sffamily\small\bfseries},
-        ecu/.style={rectangle, draw, fill=green!10, rounded corners, minimum width=2.5cm, minimum height=1cm, drop shadow, font=\sffamily\small},
-        bus/.style={rectangle, draw, fill=gray!20, minimum width=8cm, minimum height=0.6cm, drop shadow, font=\sffamily\small\bfseries},
-        zone/.style={draw, dashed, rounded corners, inner sep=15pt, fill=#1, fill opacity=0.05},
+        cloud/.style={cloud, draw, cloud puffs=10, cloud puff arc=120, aspect=2, inner ysep=1em, fill=gray!10, drop shadow},
+        gateway/.style={rectangle, draw, rounded corners, fill=red!10, minimum width=3cm, minimum height=1.2cm, drop shadow},
+        bus/.style={rectangle, draw, fill=blue!10, minimum width=10cm, minimum height=0.6cm, drop shadow},
+        ecu/.style={rectangle, draw, fill=green!10, minimum width=2.2cm, minimum height=1cm, drop shadow},
+        hacker/.style={rectangle, draw, fill=black, text=white, rounded corners, minimum width=2.5cm, drop shadow},
         arrow/.style={->, >=stealth, thick},
         wireless/.style={->, >=stealth, thick, dashed, color=blue!80},
-        attack/.style={->, >=stealth, ultra thick, color=red!90}
+        attack/.style={->, >=stealth, ultra thick, red!80},
+        zone/.style={draw, dashed, rounded corners, inner sep=15pt, fill=#1, fill opacity=0.05}
     ]
-%
-    % Nodes
-    \node[cloud] (backend) at (2, 2) {Cloud Stellantis\\(Serveurs OTA)};
-    \node[rectangle, draw, rounded corners, fill=red!10, minimum width=2.5cm, minimum height=1cm, drop shadow, font=\sffamily\small\bfseries] (hacker) at (-3, 2) {Attaquant\\(Spoofing/MiTM)};
-    
-    \node[gateway] (tcu) at (0, -1.5) {Unité Télématique (TCU)\\(Passerelle 4G/5G/Wi-Fi)};
-    \node[gateway] (ivi) at (5.5, -1.5) {Calculateur IVI\\(Infodivertissement)};
-    
-    \node[bus] (can) at (2.75, -3.5) {Bus Réseau Véhicule Critique (CAN / Automotive Ethernet)};
-    
-    \node[ecu] (ecu_mot) at (-1, -5) {ECU Moteur\\(Powertrain)};
-    \node[ecu] (ecu_frein) at (2.25, -5) {ECU Freinage\\(Châssis)};
-    \node[ecu] (ecu_ad) at (5.5, -5) {ECU Autonome\\(ADAS)};
 
-    % Grouping borders
-    \draw[zone=blue] (-4.5, -6) rectangle (8.5, -0.5);
-    \node[below right, font=\sffamily\small\bfseries, color=blue!80] at (-4.5, -0.5) {Architecture Interne du Véhicule (Isolée)};
-    \draw[zone=gray] (-4.5, 0.5) rectangle (8.5, 3.5);
-    \node[below right, font=\sffamily\small\bfseries, color=gray!80] at (-4.5, 3.5) {Réseau Externe (Vulnérable)};
+    % Zone backgrounds
+    \draw[zone=gray] (-6, -0.5) rectangle (3, 7.5);
+    \node[below right, font=\sffamily\small\bfseries, color=gray!80] at (-6, 7.5) {Réseau Externe (Vulnérable)};
+
+    \draw[zone=blue] (-5, -6) rectangle (8.5, 1.5);
+    \node[above right, font=\sffamily\small\bfseries, color=blue!80] at (-5, -6) {Architecture Interne (Isolée)};
+
+    % Top Level
+    \node[cloud] (cloud) at (0, 6) {Serveur Backend OTA\\(Constructeur automobile)};
+    \node[hacker] (hacker) at (-4, 4) {Attaquant\\(Réseau Compromis)};
+    
+    % Middle Level
+    \node[gateway] (tcu) at (0, 2) {Calculateur TCU\\(Télématique)};
+    \node[gateway] (ivi) at (5.5, 0) {Calculateur IVI\\(Infodivertissement)};
+    
+    % Bus Level
+    \node[bus] (can) at (2.75, -2.5) {Bus CAN / Ethernet embarqué};
+    
+    % ECU Level
+    \node[ecu] (ecu1) at (-1, -4.5) {ECU Moteur};
+    \node[ecu] (ecu2) at (2.75, -4.5) {ECU Freins};
+    \node[ecu] (ecu3) at (6.5, -4.5) {ECU Direction};
 
     % Connections
-    \draw[wireless] (backend) -- (tcu) node[midway, right, font=\sffamily\scriptsize, color=black] {Mise à jour OTA\\(Canal sans fil)};
-    \draw[attack] (hacker) -- (tcu) node[midway, sloped, above, font=\sffamily\tiny, color=red!90] {Injection de payload malveillant};
+    \draw[wireless] (cloud) -- (tcu) node[midway, right, font=\sffamily\scriptsize, color=black] {Mise à jour OTA\\(Canal sans fil)};
+    \draw[attack] (hacker) -- (tcu) node[midway, sloped, above, font=\sffamily\tiny, color=red!90] {Injection malveillante};
     
-    \draw[arrow] (tcu) -- (ivi) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Réseau Interne\\(Vulnérable si compromis)};
+    \draw[arrow] (tcu) -- (ivi) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Réseau Interne};
     
     \draw[arrow] (tcu) -- (tcu |- can.north);
     \draw[arrow] (ivi) -- (ivi |- can.north);
-    
-    \draw[arrow] (can.south -| ecu_mot) -- (ecu_mot);
-    \draw[arrow] (can.south -| ecu_frein) -- (ecu_frein);
-    \draw[arrow] (can.south -| ecu_ad) -- (ecu_ad);
-%
+    \draw[arrow] (can.south -| ecu1) -- (ecu1.north);
+    \draw[arrow] (can.south -| ecu2) -- (ecu2.north);
+    \draw[arrow] (can.south -| ecu3) -- (ecu3.north);
+
     \end{tikzpicture}
     }
-    \caption[Architecture de communication OTA et menaces]{Architecture de communication OTA (Over-The-Air) et propagation potentielle des menaces vers les systèmes critiques du véhicule.}
+    \caption[Architecture OTA]{Architecture type d'un système de mise à jour OTA et ses vecteurs d'attaque sur le réseau de bord.}
     \label{fig:architecture_ota}
 \end{figure}
 
@@ -1032,28 +1036,27 @@ Un Système Multi-Agents (MAS) remplace le cerveau central par une "société" d
 
 \begin{figure}[H]
     \centering
-    \resizebox{0.7\textwidth}{!}{
     \begin{tikzpicture}[
-        every node/.style={font=\sffamily},
-        prop/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1cm, align=center, drop shadow, fill=#1},
-        arrow/.style={->, >=stealth, thick, dashed}
+        node distance=2.5cm and 3cm,
+        agent/.style={circle, draw, minimum size=3cm, font=\sffamily\small\bfseries, drop shadow, fill=blue!10, align=center},
+        prop/.style={rectangle, draw, rounded corners, minimum width=3.5cm, minimum height=1.2cm, align=center, font=\sffamily\small, drop shadow},
+        arrow/.style={<->, >=stealth, thick, color=gray!70}
     ]
-%
-    \node[ellipse, draw, fill=blue!15, minimum width=3.5cm, minimum height=2cm, font=\sffamily\bfseries, drop shadow, align=center] (agent) {Agent\\Cognitif};
-%
-    \node[prop=green!15, above=2.5cm of agent] (auto) {\textbf{Autonomie}\\Contr\^ole ind\'ependant};
-    \node[prop=cyan!15, right=3cm of agent] (react) {\textbf{R\'eactivit\'e}\\Perception temps r\'eel};
-    \node[prop=orange!15, below=2.5cm of agent] (proact) {\textbf{Proactivit\'e}\\Initiative d'enrichissement};
-    \node[prop=purple!15, left=3cm of agent] (social) {\textbf{Sociabilit\'e}\\D\'el\'egation inter-agents};
-%
+
+    \node[agent] (agent) {\textbf{Agent Cognitif}\\\textit{(Nœud de calcul)}};
+
+    \node[prop, fill=green!15, above left=of agent] (auto) {\textbf{Autonomie}\\Contrôle indépendant};
+    \node[prop, fill=cyan!15, above right=of agent] (react) {\textbf{Réactivité}\\Perception temps réel};
+    \node[prop, fill=orange!15, below right=of agent] (proact) {\textbf{Proactivité}\\Initiative d'enrichissement};
+    \node[prop, fill=purple!15, below left=of agent] (social) {\textbf{Sociabilité}\\Délégation inter-agents};
+
     \draw[arrow] (agent) -- (auto);
     \draw[arrow] (agent) -- (react);
     \draw[arrow] (agent) -- (proact);
     \draw[arrow] (agent) -- (social);
-%
+
     \end{tikzpicture}
-    }
-    \caption[Propriétés d\'un agent intelligent (Wooldridge)]{Les quatre propri\'et\'es fondamentales d'un agent intelligent selon Wooldridge et Jennings \cite{wooldridge_mas}, appliqu\'ees aux agents cognitifs de l'architecture Cyber-MAS.}
+    \caption{Propriétés fondamentales d'un agent cognitif dans l'architecture Cyber-MAS.}
     \label{fig:proprietes_agent}
 \end{figure}
 
@@ -1178,7 +1181,7 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
 
 \begin{figure}[H]
     \centering
-    \resizebox{\textwidth}{!}{
+    \resizebox{0.75\textwidth}{!}{
     \begin{tikzpicture}[
         node distance=1.5cm and 2cm,
         every node/.style={font=\sffamily\small, align=center},
@@ -1373,7 +1376,7 @@ Un agent Cyber-MAS n'est pas un simple appel d'API vers un modèle de langage. C
 
 \begin{figure}[H]
     \centering
-    \resizebox{\textwidth}{!}{
+    \resizebox{0.75\textwidth}{!}{
     \begin{tikzpicture}[
         node distance=1.5cm and 2cm,
         every node/.style={font=\sffamily\small, align=center},
@@ -1887,7 +1890,7 @@ Après signalement de ces événements via l'interface, le module de rétroactio
 \caption[Impact de l'In-Context Learning]{Impact de l'In-Context Learning (RAG) sur la réduction de la fatigue d'alerte}
 \label{tab:resultats_rag}
 \vspace{0.2cm}
-\begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|c|c|c|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|c|c|>{\raggedright\arraybackslash}p{4.5cm}|}
 \hline
 \textbf{Scénario de test (Banc HIL)} & \textbf{FPR (Sans RAG)} & \textbf{FPR (Avec RAG)} & \textbf{Gain Opérationnel} \\ \hline
 \textbf{Trafic normal (Bruit de fond)} & 2.4 \% & 0.8 \% & Diminution des micro-alertes \\ \hline
