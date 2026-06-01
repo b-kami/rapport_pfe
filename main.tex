@@ -762,7 +762,7 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
     \draw[wireless] (backend) -- (tcu) node[midway, right, font=\sffamily\scriptsize, color=black] {Mise à jour OTA\\(Canal sans fil)};
     \draw[attack] (hacker) -- (tcu) node[midway, sloped, above, font=\sffamily\tiny, color=red!90] {Injection de payload malveillant};
     
-    \draw[arrow] (tcu) -- (ivi) node[midway, above, font=\sffamily\scriptsize] {Réseau Interne\\(Vulnérable si compromis)};
+    \draw[arrow] (tcu) -- (ivi) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Réseau Interne\\(Vulnérable si compromis)};
     
     \draw[arrow] (tcu) -- (tcu |- can.north);
     \draw[arrow] (ivi) -- (ivi |- can.north);
@@ -1129,7 +1129,7 @@ Le RAG repose sur une modélisation mathématique du texte en espaces multidimen
 
     % Central DB
     \node[db, fill=purple!10] (vdb) at (1.5, -2.5) {Base de Données\\Vectorielle\\(Qdrant)};
-    \draw[arrow] (embed1) -- (vdb) node[midway, left, font=\sffamily\scriptsize] {Stockage des vecteurs};
+    \draw[arrow] (embed1) -- (vdb) node[midway, left, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Stockage des vecteurs};
 
     % Zone Retrieval & Generation
     \draw[zone=green] (2, -4) rectangle (9.5, 4) node[above left, opacity=1, font=\sffamily\small\bfseries, color=green!80] {2. Phase d'Inférence (Online)};
@@ -1142,12 +1142,12 @@ Le RAG repose sur une modélisation mathématique du texte en espaces multidimen
     \node[box, fill=yellow!15] (search) at (5.5, -2.5) {Recherche de Similarité\\(K-Nearest Neighbors)};
     
     \draw[arrow] (embed2) -- (search);
-    \draw[dashedarrow] (vdb) -- (search) node[midway, above, font=\sffamily\scriptsize] {Top-K contextes};
+    \draw[dashedarrow] (vdb) -- (search) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Top-K contextes};
 
     \node[box, fill=green!15, minimum width=3.5cm] (llm) at (5.5, -5.5) {Grand Modèle de Langage (LLM)\\(Génération augmentée)};
     \node[box, fill=red!10] (output) at (5.5, -7.5) {Réponse Contextualisée\\(Verdict XAI)};
     
-    \draw[arrow] (search) -- (llm) node[midway, right, font=\sffamily\scriptsize] {Requête + Contexte};
+    \draw[arrow] (search) -- (llm) node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Requête + Contexte};
     \draw[arrow] (llm) -- (output);
 
     \end{tikzpicture}
@@ -1212,7 +1212,7 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
 %
     % ===== DISPATCHER =====
     \node[dispatcher, above=1.5cm of user] (dispatch) {Dispatcher Asynchrone (FastAPI)};
-    \draw[arrow] (user) -- (dispatch) node[midway, right, font=\sffamily\scriptsize] {Soumet une requête};
+    \draw[arrow] (user) -- (dispatch) node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Soumet une requête};
 %
     % ===== INPUT SOURCES (left of dispatcher) =====
     \node[inputsrc, left=2.5cm of dispatch, yshift=1cm] (src_email) {Vérifier\\un e-mail};
@@ -1226,26 +1226,26 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
     % --- Agent Email ---
     \node[agentbox, above left=2cm and 4.5cm of dispatch] (box_email) {};
     \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_email.north) {Agent Email};
-    \node[module] at ([yshift=0.5cm]box_email.center) (llm_email) {\textbf{LLM} (Raisonnement)};
+    \node[module] at ([yshift=1.2cm]box_email.center) (llm_email) {\textbf{LLM} (Raisonnement)};
     \node[module] at (box_email.center) (tools_email) {\textbf{Tools} (Triggers)};
-    \node[module] at ([yshift=-0.5cm]box_email.center) (mem_email) {\textbf{Mémoire} (RAG)};
+    \node[module] at ([yshift=-1.2cm]box_email.center) (mem_email) {\textbf{Mémoire} (RAG)};
 %
     % --- Agent Log ---
     \node[agentbox, above=2cm of dispatch] (box_log) {};
     \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_log.north) {Agent Analyseur de Logs};
-    \node[module] at ([yshift=0.5cm]box_log.center) (llm_log) {\textbf{LLM} (Raisonnement)};
+    \node[module] at ([yshift=1.2cm]box_log.center) (llm_log) {\textbf{LLM} (Raisonnement)};
     \node[module] at (box_log.center) (tools_log) {\textbf{Tools} (Triggers)};
-    \node[module] at ([yshift=-0.5cm]box_log.center) (mem_log) {\textbf{Mémoire} (RAG)};
+    \node[module] at ([yshift=-1.2cm]box_log.center) (mem_log) {\textbf{Mémoire} (RAG)};
 %
     % --- Agent IP ---
     \node[agentbox, above right=2cm and 4.5cm of dispatch] (box_ip) {};
     \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_ip.north) {Agent Analyseur IP};
-    \node[module] at ([yshift=0.5cm]box_ip.center) (llm_ip) {\textbf{LLM} (Raisonnement)};
+    \node[module] at ([yshift=1.2cm]box_ip.center) (llm_ip) {\textbf{LLM} (Raisonnement)};
     \node[module] at (box_ip.center) (tools_ip) {\textbf{Tools} (Triggers)};
-    \node[module] at ([yshift=-0.5cm]box_ip.center) (mem_ip) {\textbf{Mémoire} (RAG)};
+    \node[module] at ([yshift=-1.2cm]box_ip.center) (mem_ip) {\textbf{Mémoire} (RAG)};
 %
     % ===== Arrows from dispatcher to agents =====
-    \draw[arrow] (dispatch.north) -- (box_log.south) node[midway, right, font=\sffamily\scriptsize] {Logs Syslog};
+    \draw[arrow] (dispatch.north) -- (box_log.south) node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Logs Syslog};
     \draw[arrow] (dispatch.north west) ++(0,0) -- (box_email.south) node[midway, left, font=\sffamily\scriptsize, sloped] {Fichier .eml};
     \draw[arrow] (dispatch.north east) ++(0,0) -- (box_ip.south) node[midway, right, font=\sffamily\scriptsize, sloped] {Adresse IP};
 %
@@ -1258,9 +1258,9 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
     \node[correlator, above=2.5cm of box_log.north] (corr) {Corrélateur Global \& Système de Recommandation Multi-Contexte};
 %
     % ===== Arrows from agents to correlator =====
-    \draw[arrow] (box_email.north) ++(0,0.6) -- (corr.south west);
-    \draw[arrow] (box_log.north) ++(0,0.6) -- (corr.south);
-    \draw[arrow] (box_ip.north) ++(0,0.6) -- (corr.south east);
+    \draw[arrow] (box_email.north) ++(0,1.0) -- (corr.south west);
+    \draw[arrow] (box_log.north) ++(0,1.0) -- (corr.south);
+    \draw[arrow] (box_ip.north) ++(0,1.0) -- (corr.south east);
 %
     % ===== Vector DB (left of correlator) =====
     \node[db, left=2cm of corr] (qdrant) {Vector DB\\(Qdrant)};
@@ -1306,22 +1306,22 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
     }
 %
     % Messages
-    \draw[msg] (0, -1) -- (3.5, -1) node[midway, above, font=\sffamily\scriptsize] {POST /api/analyse};
-    \draw[msg] (3.5, -1.8) -- (7, -1.8) node[midway, above, font=\sffamily\scriptsize] {async: logs};
-    \draw[msg] (3.5, -2.3) -- (10.5, -2.3) node[midway, above, font=\sffamily\scriptsize] {async: IP};
+    \draw[msg] (0, -1) -- (3.5, -1) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {POST /api/analyse};
+    \draw[msg] (3.5, -1.8) -- (7, -1.8) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {async: logs};
+    \draw[msg] (3.5, -2.3) -- (10.5, -2.3) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {async: IP};
 %
-    \draw[msg] (7, -3.5) -- (10.5, -3.5) node[midway, above, font=\sffamily\scriptsize] {Trigger IP check};
-    \draw[rmsg] (10.5, -4.2) -- (7, -4.2) node[midway, above, font=\sffamily\scriptsize] {reputation data};
+    \draw[msg] (7, -3.5) -- (10.5, -3.5) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Trigger IP check};
+    \draw[rmsg] (10.5, -4.2) -- (7, -4.2) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {reputation data};
 %
-    \draw[rmsg] (7, -5.5) -- (14, -5.5) node[midway, above, font=\sffamily\scriptsize] {JSON verdict (log)};
-    \draw[rmsg] (10.5, -6.2) -- (14, -6.2) node[midway, above, font=\sffamily\scriptsize] {JSON verdict (ip)};
+    \draw[rmsg] (7, -5.5) -- (14, -5.5) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {JSON verdict (log)};
+    \draw[rmsg] (10.5, -6.2) -- (14, -6.2) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {JSON verdict (ip)};
 %
-    \draw[msg] (14, -7) -- (17.5, -7) node[midway, above, font=\sffamily\scriptsize] {query\_memory()};
-    \draw[rmsg] (17.5, -7.7) -- (14, -7.7) node[midway, above, font=\sffamily\scriptsize] {historical matches};
+    \draw[msg] (14, -7) -- (17.5, -7) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {query\_memory()};
+    \draw[rmsg] (17.5, -7.7) -- (14, -7.7) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {historical matches};
 %
-    \draw[rmsg] (14, -8.8) -- (0, -8.8) node[midway, above, font=\sffamily\scriptsize] {SSE: Alerte XAI + MITRE};
+    \draw[rmsg] (14, -8.8) -- (0, -8.8) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {SSE: Alerte XAI + MITRE};
 %
-    \draw[msg] (14, -9.5) -- (17.5, -9.5) node[midway, above, font=\sffamily\scriptsize] {store\_report()};
+    \draw[msg] (14, -9.5) -- (17.5, -9.5) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {store\_report()};
 %
     \end{tikzpicture}
     }
@@ -1396,14 +1396,14 @@ Un agent Cyber-MAS n'est pas un simple appel d'API vers un modèle de langage. C
     \node[box, fill=yellow!10] (tools) at (0, -4) {Outils Externes\\(Triggers API, NIST)};
 
     % Interaction Loops
-    \draw[arrow] (input) -- (brain) node[midway, above, font=\sffamily\scriptsize] {Ingestion};
-    \draw[arrow] (brain) -- (output) node[midway, above, font=\sffamily\scriptsize] {Décision};
+    \draw[arrow] (input) -- (brain) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Ingestion};
+    \draw[arrow] (brain) -- (output) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Décision};
 
-    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (brain) to node[midway, right, font=\sffamily\scriptsize] {Recherche de similarité} (memory);
-    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (memory) to node[midway, left, font=\sffamily\scriptsize] {Contexte injecté (RAG)} (brain);
+    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (brain) to node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Recherche de similarité} (memory);
+    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (memory) to node[midway, left, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Contexte injecté (RAG)} (brain);
 
-    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (brain) to node[midway, left, font=\sffamily\scriptsize] {Appel d'outil (Action)} (tools);
-    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (tools) to node[midway, right, font=\sffamily\scriptsize] {Résultat (Observation)} (brain);
+    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (brain) to node[midway, left, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Appel d'outil (Action)} (tools);
+    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (tools) to node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Résultat (Observation)} (brain);
 
     % Cycle icon logic
     \node[font=\sffamily\large\bfseries, color=purple] at (0, 1.2) {\textbf{Réflexion}};
@@ -1475,10 +1475,10 @@ Une IA ne possédant pas de mécanisme de mémoire est incapable d'évoluer. Cyb
     \node[doc, above=1cm of vdb] (docs) {Base de connaissances\\(Rapports SOC passés)};
 %
     % Arrows
-    \draw[dashedarrow] (docs) -- (vdb) node[midway, right, font=\sffamily\scriptsize] {Indexation};
+    \draw[dashedarrow] (docs) -- (vdb) node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Indexation};
     \draw[arrow] (query) -- (embed);
-    \draw[arrow] (embed) -- (vdb) node[midway, above, font=\sffamily\scriptsize] {Vecteur sémantique};
-    \draw[arrow] (vdb) -- (retrieve) node[midway, right, font=\sffamily\scriptsize] {Recherche (Cosinus)};
+    \draw[arrow] (embed) -- (vdb) node[midway, above, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Vecteur sémantique};
+    \draw[arrow] (vdb) -- (retrieve) node[midway, right, fill=white, inner sep=2pt, font=\sffamily\scriptsize] {Recherche (Cosinus)};
     \draw[arrow] (retrieve) -- (llm);
 %
     % Bypassing original query to LLM
@@ -1685,6 +1685,26 @@ Bien que l'interface SOC fournisse une vue d'ensemble complète, Cyber-MAS peut 
 \end{figure}
 
 Outre l'analyse complète démontrée ci-dessus, le mode CLI offre plusieurs commandes spécialisées pour différents cas d'usage :
+
+
+\textbf{Vérification de l'Environnement (Setup Check)}
+\begin{lstlisting}[language=bash, basicstyle=\footnotesize\ttfamily\color{codeid}, caption={Commandes de vérification de l\'installation et de la connectivité API.}]
+$ python main.py --check
+
+[SYSTEM] Lancement du diagnostic...
+[+] Python 3.11+ détecté
+[+] Dépendances installées (requirements.txt)
+[+] Base vectorielle locale Qdrant : OK
+[+] Fichier .env chargé avec succès
+
+$ python tools/llm_client.py
+
+[GROQ API] Test de connectivité...
+[+] Authentification réussie (Modèle: LLaMA 3.3-70B)
+[+] Latence: 450ms
+[+] Status: Prêt pour l'inférence.
+\end{lstlisting}
+
 
 \textbf{Analyse Ciblée (Single-Agent)}
 \begin{lstlisting}[language=bash, basicstyle=\footnotesize\ttfamily\color{codeid}, caption={Analyse isolée d\'un fichier suspect via l\'Agent Email.}]
