@@ -286,7 +286,33 @@ Nearshors - Casablanca}
 \vspace{0.15cm}
 \vspace{0.15cm}
 
-% [JURY - À COMPLÉTER ULTÉRIEUREMENT LORSQUE L'ÉCOLE L'ANNONCERA]
+% ===== JURY =====
+\begin{flushleft}
+    {\scriptsize \textbf{Soutenu le ../06/2026 devant le jury :}}
+    \\[-0.4cm]
+    \noindent\textcolor{separatorcolor}{\rule{\linewidth}{1pt}}\\[-0.1cm]
+\end{flushleft}
+
+\vspace{0.15cm}
+
+{\scriptsize
+\begin{tabular}{@{}l@{\hspace{0.2cm}}
+  >{\centering\arraybackslash}p{3cm}
+  @{\hspace{0.2cm}}l@{}}
+    [Nom Prénom 1] &
+    \dotfill &
+    [Titre/Qualité 1] \\[0.2cm]
+    [Nom Prénom 2] &
+    \dotfill &
+    [Titre/Qualité 2] \\[0.2cm]
+    [Nom Prénom 3] &
+    \dotfill &
+    [Titre/Qualité 3] \\[0.2cm]
+    [Nom Prénom 4] &
+    \dotfill &
+    [Titre/Qualité 4] \\
+\end{tabular}
+}
 
 \vspace{0.15cm}
 \vspace{0.15cm}
@@ -462,6 +488,7 @@ Nearshors - Casablanca}
 \vspace{0.15cm}
 \vspace{0.15cm}
 
+% ===== JURY =====
 \begin{flushleft}
     {\scriptsize \textbf{Soutenu le ../06/2026 devant le jury :}}
     \\[-0.4cm]
@@ -474,18 +501,18 @@ Nearshors - Casablanca}
 \begin{tabular}{@{}l@{\hspace{0.2cm}}
   >{\centering\arraybackslash}p{3cm}
   @{\hspace{0.2cm}}l@{}}
-    Prof. Mohamed \textsc{Fertat} &
+    [Nom Prénom 1] &
     \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    Prof. Aziz \textsc{Dahbi} &
+    [Titre/Qualité 1] \\[0.2cm]
+    [Nom Prénom 2] &
     \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    Prof. Mohamed \textsc{El Jourmi} &
+    [Titre/Qualité 2] \\[0.2cm]
+    [Nom Prénom 3] &
     \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    M. Hatim \textsc{Cherradi} &
+    [Titre/Qualité 3] \\[0.2cm]
+    [Nom Prénom 4] &
     \dotfill &
-    Ingénieur Chef de Projet à Nokia Rabat \\
+    [Titre/Qualité 4] \\
 \end{tabular}
 }
 
@@ -759,28 +786,46 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
     \resizebox{0.85\textwidth}{!}{
     \begin{tikzpicture}[
         node distance=1.5cm and 2cm,
-        cloud/.style={ellipse, draw, fill=blue!10, minimum width=2.5cm, minimum height=1.5cm, align=center, font=\sffamily\small\bfseries, drop shadow},
-        gateway/.style={rectangle, draw, fill=yellow!10, rounded corners, minimum width=2.5cm, minimum height=1.2cm, align=center, font=\sffamily\small, drop shadow},
-        ecu/.style={rectangle, draw, fill=green!10, minimum width=2.5cm, minimum height=1cm, align=center, font=\sffamily\small, drop shadow},
-        bus/.style={rectangle, draw, fill=gray!20, minimum width=6cm, minimum height=0.6cm, align=center, font=\sffamily\small\bfseries},
+        every node/.style={font=\sffamily\small, align=center},
+        cloud/.style={ellipse, draw, fill=blue!10, minimum width=3cm, minimum height=1.5cm, drop shadow, font=\sffamily\small\bfseries},
+        gateway/.style={rectangle, draw, fill=yellow!10, rounded corners, minimum width=3cm, minimum height=1.2cm, drop shadow, font=\sffamily\small\bfseries},
+        ecu/.style={rectangle, draw, fill=green!10, rounded corners, minimum width=2.5cm, minimum height=1cm, drop shadow, font=\sffamily\small},
+        bus/.style={rectangle, draw, fill=gray!20, minimum width=8cm, minimum height=0.6cm, drop shadow, font=\sffamily\small\bfseries},
+        zone/.style={draw, dashed, rounded corners, inner sep=15pt, fill=#1, fill opacity=0.05},
         arrow/.style={->, >=stealth, thick},
-        wireless/.style={->, >=stealth, thick, dashed, color=red!80}
+        wireless/.style={->, >=stealth, thick, dashed, color=blue!80},
+        attack/.style={->, >=stealth, ultra thick, color=red!90}
     ]
 %
     % Nodes
-    \node[cloud] (backend) {Cloud Stellantis\\(Serveurs OTA)};
-    \node[gateway, right=of backend] (tcu) {Unité Télématique\\(Passerelle 4G/5G)};
-    \node[ecu, right=of tcu] (ivi) {Calculateur IVI\\(Infodivertissement)};
-    \node[bus, below=of ivi, xshift=-1cm] (can) {Bus Réseau Véhicule (CAN / Ethernet)};
-    \node[ecu, below=of can, xshift=-2cm] (ecu1) {ECU Moteur};
-    \node[ecu, below=of can, xshift=2cm] (ecu2) {ECU Freinage};
-%
-    % Arrows
-    \draw[wireless] (backend) -- (tcu) node[midway, above, font=\sffamily\scriptsize, color=black] {Mise à jour (Air)};
-    \draw[arrow] (tcu) -- (ivi) node[midway, above, font=\sffamily\scriptsize] {Réseau Interne};
+    \node[cloud] (backend) at (2, 2) {Cloud Stellantis\\(Serveurs OTA)};
+    \node[rectangle, draw, rounded corners, fill=red!10, minimum width=2.5cm, minimum height=1cm, drop shadow, font=\sffamily\small\bfseries] (hacker) at (-3, 2) {Attaquant\\(Spoofing/MiTM)};
+    
+    \node[gateway] (tcu) at (0, -1.5) {Unité Télématique (TCU)\\(Passerelle 4G/5G/Wi-Fi)};
+    \node[gateway] (ivi) at (4.5, -1.5) {Calculateur IVI\\(Infodivertissement)};
+    
+    \node[bus] (can) at (2.25, -3.5) {Bus Réseau Véhicule Critique (CAN / Automotive Ethernet)};
+    
+    \node[ecu] (ecu_mot) at (-1, -5) {ECU Moteur\\(Powertrain)};
+    \node[ecu] (ecu_frein) at (2.25, -5) {ECU Freinage\\(Châssis)};
+    \node[ecu] (ecu_ad) at (5.5, -5) {ECU Autonome\\(ADAS)};
+
+    % Grouping borders
+    \draw[zone=blue] (-4.5, -0.5) rectangle (7.5, -6) node[above left, opacity=1, font=\sffamily\small\bfseries, color=blue!80] {Architecture Interne du Véhicule (Isolée)};
+    \draw[zone=gray] (-4.5, 0.5) rectangle (7.5, 3.5) node[above left, opacity=1, font=\sffamily\small\bfseries, color=gray!80] {Réseau Externe (Vulnérable)};
+
+    % Connections
+    \draw[wireless] (backend) -- (tcu) node[midway, right, font=\sffamily\scriptsize, color=black] {Mise à jour OTA\\(Canal sans fil)};
+    \draw[attack] (hacker) -- (tcu) node[midway, sloped, above, font=\sffamily\tiny, color=red!90] {Injection de payload malveillant};
+    
+    \draw[arrow] (tcu) -- (ivi) node[midway, above, font=\sffamily\scriptsize] {Réseau Interne\\(Vulnérable si compromis)};
+    
+    \draw[arrow] (tcu) -- (tcu |- can.north);
     \draw[arrow] (ivi) -- (ivi |- can.north);
-    \draw[arrow] (can.south -| ecu1) -- (ecu1);
-    \draw[arrow] (can.south -| ecu2) -- (ecu2);
+    
+    \draw[arrow] (can.south -| ecu_mot) -- (ecu_mot);
+    \draw[arrow] (can.south -| ecu_frein) -- (ecu_frein);
+    \draw[arrow] (can.south -| ecu_ad) -- (ecu_ad);
 %
     \end{tikzpicture}
     }
@@ -1121,26 +1166,46 @@ Le RAG repose sur une modélisation mathématique du texte en espaces multidimen
     \centering
     \resizebox{0.85\textwidth}{!}{
     \begin{tikzpicture}[
-        every node/.style={font=\sffamily\small},
-        mystep/.style={rectangle, draw, rounded corners, minimum width=2.2cm, minimum height=1cm, align=center, drop shadow, fill=#1},
-        arrow/.style={->, >=stealth, thick}
+        node distance=1.5cm and 2cm,
+        every node/.style={font=\sffamily\small, align=center},
+        box/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1.2cm, drop shadow},
+        db/.style={cylinder, draw, shape border rotate=90, aspect=0.25, fill=gray!10, minimum height=1.8cm, minimum width=2cm, drop shadow, align=center, font=\sffamily\small\bfseries},
+        arrow/.style={->, >=stealth, thick},
+        dashedarrow/.style={->, >=stealth, thick, dashed},
+        zone/.style={draw, dashed, rounded corners, inner sep=15pt, fill=#1, fill opacity=0.05}
     ]
-%
-    \node[mystep=orange!15] (query) {1. Requ\^ete\\(Alerte SOC)};
-    \node[mystep=blue!15, right=1.5cm of query] (embed) {2. Embedding\\(Vectorisation)};
-    \node[mystep=gray!15, right=1.5cm of embed] (search) {3. Recherche\\(Similarit\'e Cosinus)};
-    \node[mystep=green!15, right=1.5cm of search] (augment) {4. Augmentation\\(Contexte inject\'e)};
-    \node[mystep=purple!15, right=1.5cm of augment] (generate) {5. G\'en\'eration\\(Verdict LLM)};
-%
-    \draw[arrow] (query) -- (embed);
-    \draw[arrow] (embed) -- (search);
-    \draw[arrow] (search) -- (augment);
-    \draw[arrow] (augment) -- (generate);
-%
-    % DB below search
-    \node[cylinder, draw, shape border rotate=90, aspect=0.25, fill=gray!10, minimum height=1.2cm, minimum width=1.5cm, below=1.2cm of search, font=\sffamily\scriptsize, drop shadow, align=center] (db) {Base\\Vectorielle};
-    \draw[<->, >=stealth, thick, blue!70] (search) -- (db);
-%
+
+    % Zone Data Ingestion
+    \draw[zone=blue] (-4.5, -4) rectangle (1.5, 4) node[above left, opacity=1, font=\sffamily\small\bfseries, color=blue!80] {1. Phase d'Ingestion (Offline)};
+
+    \node[box, fill=blue!10] (docs) at (-1.5, 2.5) {Documents sources\\(Rapports, CVE, MITRE)};
+    \node[box, fill=blue!15] (embed1) at (-1.5, 0) {Modèle d'Embedding\\(Vectorisation)};
+    
+    \draw[arrow] (docs) -- (embed1);
+
+    % Central DB
+    \node[db, fill=purple!10] (vdb) at (1.5, -2.5) {Base de Données\\Vectorielle\\(Qdrant)};
+    \draw[arrow] (embed1) -- (vdb) node[midway, left, font=\sffamily\scriptsize] {Stockage des vecteurs};
+
+    % Zone Retrieval & Generation
+    \draw[zone=green] (2, -4) rectangle (9.5, 4) node[above left, opacity=1, font=\sffamily\small\bfseries, color=green!80] {2. Phase d'Inférence (Online)};
+
+    \node[box, fill=orange!15] (query) at (5.5, 2.5) {Requête Utilisateur / Agent\\(Alerte JSON)};
+    \node[box, fill=blue!15] (embed2) at (5.5, 0) {Modèle d'Embedding\\(Vectorisation de la requête)};
+    
+    \draw[arrow] (query) -- (embed2);
+    
+    \node[box, fill=yellow!15] (search) at (5.5, -2.5) {Recherche de Similarité\\(K-Nearest Neighbors)};
+    
+    \draw[arrow] (embed2) -- (search);
+    \draw[dashedarrow] (vdb) -- (search) node[midway, above, font=\sffamily\scriptsize] {Top-K contextes};
+
+    \node[box, fill=green!15, minimum width=3.5cm] (llm) at (5.5, -5.5) {Grand Modèle de Langage (LLM)\\(Génération augmentée)};
+    \node[box, fill=red!10] (output) at (5.5, -7.5) {Réponse Contextualisée\\(Verdict XAI)};
+    
+    \draw[arrow] (search) -- (llm) node[midway, right, font=\sffamily\scriptsize] {Requête + Contexte};
+    \draw[arrow] (llm) -- (output);
+
     \end{tikzpicture}
     }
     \caption{Sch\'ema th\'eorique du paradigme RAG (\textit{Retrieval-Augmented Generation}) en cinq \'etapes s\'equentielles, de la requ\^ete initiale jusqu'\`a la g\'en\'eration du verdict augment\'e.}
@@ -1367,33 +1432,38 @@ Un agent Cyber-MAS n'est pas un simple appel d'API vers un modèle de langage. C
     \resizebox{\textwidth}{!}{
     \begin{tikzpicture}[
         node distance=1.5cm and 2cm,
-        box/.style={rectangle, draw, rounded corners, minimum width=2.5cm, minimum height=1cm, align=center, font=\sffamily\small, drop shadow},
-        db/.style={cylinder, draw, shape border rotate=90, aspect=0.25, minimum height=1.5cm, minimum width=2cm, align=center, font=\sffamily\small, drop shadow},
-        llm/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1.5cm, align=center, font=\sffamily\small\bfseries, drop shadow},
+        every node/.style={font=\sffamily\small, align=center},
+        box/.style={rectangle, draw, rounded corners, minimum width=2.5cm, minimum height=1cm, drop shadow},
+        db/.style={cylinder, draw, shape border rotate=90, aspect=0.25, minimum height=1.5cm, minimum width=2cm, drop shadow},
+        llm/.style={circle, draw, minimum size=3.5cm, font=\sffamily\small\bfseries, drop shadow, fill=purple!10},
         arrow/.style={->, >=stealth, thick},
-        dottedarrow/.style={->, >=stealth, thick, densely dotted}
+        dottedarrow/.style={->, >=stealth, thick, dashed}
     ]
-%
-    % Nodes
-    \node[box, fill=green!10] (input) {Alerte Brute\\(JSON)};
-    \node[box, fill=blue!10, right=of input] (rag) {Perception\\(RAG)};
-    \node[db, fill=gray!20, below=of rag] (qdrant) {Vector DB\\(Qdrant)};
-    \node[box, fill=blue!10, right=of rag] (enrich) {Enrichissement};
-    \node[box, fill=yellow!10, below=of enrich] (api) {APIs Externes\\(Triggers)};
-    \node[llm, fill=purple!10, right=of enrich] (reasoning) {Raisonnement LLM\\(Prompt)};
-    \node[box, fill=red!10, right=of reasoning] (output) {Verdict\\\& XAI};
-%
-    % Arrows
-    \draw[arrow] (input) -- (rag);
-    \draw[arrow] (rag) -- (enrich);
-    \draw[arrow] (enrich) -- (reasoning);
-    \draw[arrow] (reasoning) -- (output);
-%
-    \draw[<->, >=stealth, thick, color=blue!70] (rag) -- (qdrant) node[midway, left] {Similarité};
-    \draw[<->, >=stealth, thick, color=orange] (enrich) -- (api) node[midway, right] {Threat Intel};
-%
-    \draw[dottedarrow] (api.east) -| (reasoning.south) node[near start, below] {Contexte enrichi};
-%
+
+    % Central LLM "Brain"
+    \node[llm] (brain) at (0, 0) {Cerveau LLM\\(Orchestrateur)};
+
+    % Inputs & Outputs
+    \node[box, fill=green!10] (input) at (-5, 0) {Alerte Brute\\(JSON)};
+    \node[box, fill=red!10] (output) at (5, 0) {Verdict Structuré\\\& Explication (XAI)};
+
+    % Memory & Tools
+    \node[db, fill=gray!20] (memory) at (0, 4) {Mémoire à long terme\\(Qdrant Vector DB)};
+    \node[box, fill=yellow!10] (tools) at (0, -4) {Outils Externes\\(Triggers API, NIST)};
+
+    % Interaction Loops
+    \draw[arrow] (input) -- (brain) node[midway, above, font=\sffamily\scriptsize] {Ingestion};
+    \draw[arrow] (brain) -- (output) node[midway, above, font=\sffamily\scriptsize] {Décision};
+
+    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (brain) to node[midway, right, font=\sffamily\scriptsize] {Recherche de similarité} (memory);
+    \draw[->, >=stealth, thick, color=blue!80, bend left=20] (memory) to node[midway, left, font=\sffamily\scriptsize] {Contexte injecté (RAG)} (brain);
+
+    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (brain) to node[midway, left, font=\sffamily\scriptsize] {Appel d'outil (Action)} (tools);
+    \draw[->, >=stealth, thick, color=orange!80, bend left=20] (tools) to node[midway, right, font=\sffamily\scriptsize] {Résultat (Observation)} (brain);
+
+    % Cycle icon logic
+    \node[font=\sffamily\large\bfseries, color=purple] at (0, 1.2) {\textbf{Réflexion}};
+    
     \end{tikzpicture}
     }
     \caption{Diagramme de flux de données (Dataflow) modélisant le cycle cognitif interne d'un agent spécialisé.}
