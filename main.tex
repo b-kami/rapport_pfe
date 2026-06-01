@@ -108,7 +108,7 @@
 % ===================== FORMATAGE DES TITRES =====================
 \titleformat{\chapter}[display]
   {\normalfont\Large\bfseries}
-  {Chapitre \thechapter}{20pt}{\LARGE}
+  {\chaptertitlename\ \thechapter}{20pt}{\LARGE}
 \titlespacing*{\chapter}{0pt}{-20pt}{30pt}
 
 % ===================== HYPERREF CONFIG =====================
@@ -780,7 +780,7 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
 \caption{Typologie des cybermenaces ciblant les calculateurs d'infodivertissement (ECU)}
 \label{tab:menaces_infotainment}
 \vspace{0.2cm}
-\begin{tabular}{|p{3cm}|p{5cm}|p{5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{5cm}|}
 \hline
 \textbf{Vecteur d'Attaque} & \textbf{Description Technique} & \textbf{Impact Potentiel (Contexte OTA)} \\ \hline
 \textbf{Réseau Sans Fil (Wi-Fi/Bluetooth)} & Exploitation de vulnérabilités protocolaires pour s'introduire via l'interface multimédia. & Compromission initiale, vol de données personnelles du conducteur. \\ \hline
@@ -813,7 +813,7 @@ Cette surcharge cognitive quotidienne, face à des milliers de faux positifs gé
 \caption{Comparaison des capacités de détection : Approche Classique vs Architecture Cyber-MAS}
 \label{tab:comparaison_siem_mas}
 \vspace{0.2cm}
-\begin{tabular}{|p{4.5cm}|p{4.5cm}|p{5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|>{\raggedright\arraybackslash}p{5cm}|}
 \hline
 \textbf{Critère d'évaluation} & \textbf{SIEM + ML Classique} & \textbf{Cyber-MAS (LLM + MAS)} \\ \hline
 \textbf{Architecture système} & Centralisée (Monolithique) & Décentralisée (Agents autonomes) \\ \hline
@@ -901,7 +901,7 @@ Le projet a été structuré en trois grandes phases (Cadrage, Développement de
 \caption{Découpage du projet selon la méthodologie Agile Scrum}
 \label{tab:planning_agile}
 \vspace{0.2cm}
-\begin{tabular}{|l|p{8cm}|c|}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{8cm}|c|}
 \hline
 \textbf{Phase} & \textbf{Objectifs \& Livrables principaux} & \textbf{Durée estimée} \\ \hline
 \textbf{Sprint 1} & Étude de l'état de l'art, cadrage avec l'équipe de validation et définition de l'architecture. & 2 semaines \\ \hline
@@ -1003,7 +1003,7 @@ Appliqué à la cybersécurité, le LLM traite un journal d'événements sémant
 \caption{Comparaison des paradigmes d'Intelligence Artificielle en cybersécurité}
 \label{tab:comparaison_ia}
 \vspace{0.2cm}
-\begin{tabular}{|p{3.5cm}|p{5cm}|p{5.5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{5.5cm}|}
 \hline
 \textbf{Caractéristique} & \textbf{Machine Learning Classique} & \textbf{LLM \& Approche XAI (Cyber-MAS)} \\ \hline
 \textbf{Méthode d'analyse} & Statistique (variance, seuils) & Sémantique et logique (Chain-of-Thought) \\ \hline
@@ -1064,7 +1064,7 @@ Dans un SIEM classique, le traitement des règles centralisées crée un goulot 
 \caption{Analyse comparative des approches d'implémentation Multi-Agents}
 \label{tab:frameworks_mas}
 \vspace{0.2cm}
-\begin{tabular}{|p{3.5cm}|p{3cm}|p{7cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{7cm}|}
 \hline
 \textbf{Approche / Framework} & \textbf{Langage} & \textbf{Justification du rejet ou de l'adoption} \\ \hline
 \textbf{JADE} & Java & \textbf{Rejeté :} Lourd, obsolète, et difficilement intégrable avec les API modernes de Machine Learning et LLMs. \\ \hline
@@ -1086,7 +1086,7 @@ Pour qu'une IA produise une alerte actionnable, elle doit s'exprimer dans un lan
 \caption{Catégorisation des sources de Threat Intelligence (CTI) intégrables}
 \label{tab:sources_cti}
 \vspace{0.2cm}
-\begin{tabular}{|l|p{5cm}|p{5cm}|}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{5cm}|}
 \hline
 \textbf{Catégorie} & \textbf{Exemple d'API / Base} & \textbf{Rôle dans l'architecture Cyber-MAS} \\ \hline
 \textbf{Vulnérabilités} & NIST NVD (National Vulnerability Database) & Interrogée par l'Agent Log pour récupérer les scores CVSS des composants obsolètes. \\ \hline
@@ -1353,7 +1353,7 @@ Pour que le Corrélateur puisse ultérieurement fusionner des diagnostics hété
 \caption{Spécification stricte du contrat d'interface JSON inter-agents}
 \label{tab:json_contract}
 \vspace{0.2cm}
-\begin{tabular}{|l|l|p{7.5cm}|}
+\begin{tabular}{|l|l|>{\raggedright\arraybackslash}p{7.5cm}|}
 \hline
 \textbf{Clé JSON} & \textbf{Type} & \textbf{Description et Contrainte de l'Agent} \\ \hline
 \texttt{verdict} & String & Doit être strictement évalué à \texttt{"malicious"}, \texttt{"suspicious"} ou \texttt{"safe"}. \\ \hline
@@ -1417,7 +1417,7 @@ Un agent Cyber-MAS n'est pas un simple appel d'API vers un modèle de langage. C
 \caption{Cartographie des agents cognitifs de l'architecture Cyber-MAS}
 \label{tab:cartographie_agents}
 \vspace{0.2cm}
-\begin{tabular}{|l|p{4cm}|p{3.5cm}|p{4.5cm}|}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{4.5cm}|}
 \hline
 \textbf{Agent} & \textbf{Rôle Principal} & \textbf{Sources d'Entrée} & \textbf{Interactions \& Triggers} \\ \hline
 \textbf{Agent IP} & Évaluation de la réputation réseau et géolocalisation. & Adresses IPv4/IPv6, Domaines & Sous-traite pour les autres agents ; interroge Threat Intel. \\ \hline
@@ -1501,7 +1501,7 @@ La persistance de la connaissance SOC s'appuie sur une dualité technologique ju
 \caption{Comparaison des solutions de stockage vectoriel intégrées à Cyber-MAS}
 \label{tab:comparaison_rag}
 \vspace{0.2cm}
-\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4cm}|>{\raggedright\arraybackslash}p{5cm}|>{\raggedright\arraybackslash}p{5cm}|}
 \hline
 \textbf{Critère} & \textbf{FAISS (Meta)} & \textbf{Qdrant} \\ \hline
 \textbf{Type de stockage} & En mémoire vive (RAM) & Persistant (Sur disque avec cache RAM) \\ \hline
@@ -1547,7 +1547,7 @@ Le détail exhaustif des commandes d'installation, de la configuration de l'envi
 \caption{Spécifications de l'environnement matériel et logiciel}
 \label{tab:environnement_tech}
 \vspace{0.2cm}
-\begin{tabular}{|l|p{8cm}|}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{8cm}|}
 \hline
 \textbf{Composant} & \textbf{Technologie / Spécification} \\ \hline
 \textbf{Système d'exploitation} & Ubuntu 22.04 LTS (Environnement de test) \\ \hline
@@ -1726,7 +1726,7 @@ Les résultats, synthétisés dans le Tableau~\ref{tab:kpi_comparison}, démontr
 \caption{Comparaison des Indicateurs de Performance (KPIs) SOC.}
 \label{tab:kpi_comparison}
 \vspace{0.2cm}
-\begin{tabular}{|l|c|c|p{4cm}|}
+\begin{tabular}{|l|c|c|>{\raggedright\arraybackslash}p{4cm}|}
 \hline
 \textbf{Indicateur Clé (KPI)} & \textbf{SIEM + ML Classique} & \textbf{Cyber-MAS} & \textbf{Justification Technique} \\ \hline
 \textbf{Précision de Détection} & 78.5 \% & \textbf{94.2 \%} & Le LLM comprend l'intention sémantique, surpassant la simple variance statistique. \\ \hline
@@ -1744,7 +1744,7 @@ Après signalement de ces événements via l'interface, le module de rétroactio
 \caption{Impact de l'In-Context Learning (RAG) sur la réduction de la fatigue d'alerte}
 \label{tab:resultats_rag}
 \vspace{0.2cm}
-\begin{tabular}{|p{4.5cm}|c|c|c|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.5cm}|c|c|c|}
 \hline
 \textbf{Scénario de test (Banc HIL)} & \textbf{FPR (Sans RAG)} & \textbf{FPR (Avec RAG)} & \textbf{Gain Opérationnel} \\ \hline
 \textbf{Trafic normal (Bruit de fond)} & 2.4 \% & 0.8 \% & Diminution des micro-alertes \\ \hline
@@ -2269,7 +2269,7 @@ Le tableau ci-dessous adapte le framework généraliste MITRE ATT\&CK aux réali
 \centering
 \caption{Matrice MITRE ATT\&CK appliquee aux systemes embarques et a la Validation OTA}
 \vspace{0.2cm}
-\begin{tabular}{|p{3cm}|p{3.5cm}|p{7.5cm}|}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{7.5cm}|}
 \hline
 \textbf{Tactique MITRE} & \textbf{Technique (ID)} & \textbf{Application au contexte Automobile / OTA} \\ \hline
 \textbf{Accès Initial} & Exploit Public-Facing Application (T1190) & Exploitation d'une vulnerabilite sur le portail captif Wi-Fi de l'infodivertissement pour acceder au reseau interne du vehicule. \\ \hline
