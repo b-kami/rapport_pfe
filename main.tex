@@ -79,7 +79,7 @@
 \usepackage{chngcntr}               % Numérotation par chapitre (ENSAJ)
 \counterwithin{figure}{chapter}
 \counterwithin{table}{chapter}
-\usetikzlibrary{shadows, shapes.geometric, positioning, arrows.meta}
+\usetikzlibrary{shadows, shapes.geometric, shapes.clouds, positioning, arrows.meta}
 
 % ===================== MISE EN PAGE ENSAJ =====================
 % Marges : 2cm partout (ENSAJ)
@@ -729,7 +729,7 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
     \begin{tikzpicture}[
         node distance=2cm and 2cm,
         every node/.style={font=\sffamily\small, align=center},
-        cloud/.style={cloud, draw, cloud puffs=10, cloud puff arc=120, aspect=2, inner ysep=1em, fill=gray!10, drop shadow},
+        cloudnode/.style={cloud, draw, cloud puffs=10, cloud puff arc=120, aspect=2, inner ysep=1em, fill=gray!10, drop shadow},
         gateway/.style={rectangle, draw, rounded corners, fill=red!10, minimum width=3cm, minimum height=1.2cm, drop shadow},
         bus/.style={rectangle, draw, fill=blue!10, minimum width=10cm, minimum height=0.6cm, drop shadow},
         ecu/.style={rectangle, draw, fill=green!10, minimum width=2.2cm, minimum height=1cm, drop shadow},
@@ -748,7 +748,7 @@ La figure \ref{fig:architecture_ota} illustre la surface d'attaque et le flux de
     \node[above right, font=\sffamily\small\bfseries, color=blue!80] at (-5, -6) {Architecture Interne (Isolée)};
 
     % Top Level
-    \node[cloud] (cloud) at (0, 6) {Serveur Backend OTA\\(Constructeur automobile)};
+    \node[cloudnode] (cloud) at (0, 6) {Serveur Backend OTA\\(Constructeur automobile)};
     \node[hacker] (hacker) at (-4, 4) {Attaquant\\(Réseau Compromis)};
     
     % Middle Level
