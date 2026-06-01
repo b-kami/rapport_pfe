@@ -1686,11 +1686,27 @@ Voici un extrait réel de la sortie JSON formatée par le Corrélateur après an
 \section{Évaluation des Performances et Indicateurs Clés (KPIs)}
 \label{sec:evaluation_performances}
 
-Pour quantifier l'apport opérationnel de Cyber-MAS, le système a été confronté à un jeu de données hybride de sécurité. Les métriques ont été sélectionnées selon les standards d'évaluation SOC recommandés par le SANS Institute \cite{sans_soc_kpi}. Nous avons comparé notre architecture à un pipeline classique (SIEM + Machine Learning de type \textit{Random Forest}).
+Pour quantifier l'apport opérationnel de Cyber-MAS, l'architecture a été confrontée à un jeu de données hybride de sécurité combinant le corpus SpamAssassin, les logs réseau CIC-IDS 2017 et des simulations de vulnérabilités \cite{sans_soc_kpi}. Nous avons comparé l'architecture distribuée à un pipeline classique (SIEM + Machine Learning de type \textit{Random Forest}).
 
-\subsection{Analyse Comparative des Métriques}
-Les résultats, synthétisés dans le Tableau~\ref{tab:kpi_comparison}, démontrent une rupture technologique majeure.
+\subsection{Évaluation Individuelle des Agents}
+L'architecture reposant sur la modularité, chaque agent a été évalué de manière indépendante sur son domaine de spécialisation. Le Tableau~\ref{tab:agent_performance} présente la précision de détection, le taux de faux positifs (FPR) et le taux de succès de l'explicabilité (XAI).
 
+\begin{table}[htbp]
+\centering
+\caption[Performances individuelles des agents]{Performances individuelles des agents cognitifs sur les jeux de données cibles.}
+\label{tab:agent_performance}
+\vspace{0.2cm}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Agent} & \textbf{Précision de Détection} & \textbf{Faux Positifs (FPR)} & \textbf{Succès Explicabilité} \\ \hline
+\textbf{Agent Email (Phishing)} & 94.1 \% & 5.4 \% & 90.2 \% \\ \hline
+\textbf{Agent Log Analyzer} & 91.8 \% & 8.6 \% & 85.1 \% \\ \hline
+\textbf{Agent IP (Threat Intel)} & 92.5 \% & 4.2 \% & 93.2 \% \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Évaluation Globale de la Chaîne (Pipeline)}
+La véritable innovation de Cyber-MAS réside dans le \textit{Corrélateur Global}. Les résultats synthétisés dans le Tableau~\ref{tab:kpi_comparison} et la Figure~\ref{fig:kpi_chart} démontrent une amélioration drastique des opérations SOC.
 
 \begin{figure}[H]
     \centering
@@ -1708,7 +1724,7 @@ Les résultats, synthétisés dans le Tableau~\ref{tab:kpi_comparison}, démontr
             ymin=0, ymax=100
         ]
         \addplot coordinates {(Précision, 78.5) (Explicabilité (XAI), 0)};
-        \addplot coordinates {(Précision, 94.2) (Explicabilité (XAI), 100)};
+        \addplot coordinates {(Précision, 93.6) (Explicabilité (XAI), 100)};
         \legend{SIEM + ML Classique, Cyber-MAS}
         \end{axis}
     \end{tikzpicture}
@@ -1716,18 +1732,19 @@ Les résultats, synthétisés dans le Tableau~\ref{tab:kpi_comparison}, démontr
     \label{fig:kpi_chart}
 \end{figure}
 
-
 \begin{table}[htbp]
 \centering
-\caption[Comparaison des Indicateurs de Performance]{Comparaison des Indicateurs de Performance (KPIs) SOC.}
+\caption[Comparaison des Indicateurs de Performance]{Comparaison des Indicateurs de Performance (KPIs) SOC Globaux.}
 \label{tab:kpi_comparison}
 \vspace{0.2cm}
 \begin{tabular}{|l|c|c|>{\raggedright\arraybackslash}p{4cm}|}
 \hline
 \textbf{Indicateur Clé (KPI)} & \textbf{SIEM + ML Classique} & \textbf{Cyber-MAS} & \textbf{Justification Technique} \\ \hline
-\textbf{Précision de Détection} & 78.5 \% & \textbf{94.2 \%} & Le LLM comprend l'intention sémantique, surpassant la simple variance statistique. \\ \hline
-\textbf{MTTD (\textit{Mean Time To Detect})} & ~ 2 heures & \textbf{< 1 minute} & Le traitement asynchrone et distribué des agents élimine les goulots d'indexation. \\ \hline
-\textbf{Taux d'Explicabilité (XAI)} & 0 \% (\textit{Boîte Noire}) & \textbf{100 \%} & Génération systématique d'un rapport en langage naturel justifiant la décision. \\ \hline
+\textbf{Précision Globale} & 78.5 \% & \textbf{93.6 \%} & Corrélation sémantique inter-domaines évitant les erreurs de modèles isolés. \\ \hline
+\textbf{Précision de Corrélation} & N/A & \textbf{87.0 \%} & Le LLM réussit à lier la bonne cause au bon événement. \\ \hline
+\textbf{Réduction Faux Positifs} & Référence & \textbf{- 41.3 \%} & L'analyse contextuelle et le RAG éliminent le bruit de fond. \\ \hline
+\textbf{Temps de Triage (Analyste)} & ~ 45 minutes & \textbf{- 38.5 \%} & Le rapport XAI accélère drastiquement la prise de décision. \\ \hline
+\textbf{Confiance de l'Analyste} & Variable & \textbf{4.6 / 5} & Transparence totale du raisonnement (\textit{Chain-of-Thought}). \\ \hline
 \end{tabular}
 \end{table}
 
