@@ -1645,6 +1645,35 @@ L'interface de la solution a été conçue pour alléger la charge cognitive des
     \label{fig:dashboard_agents}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{media/screenshot_timeline.png}
+    \caption[Vue Timeline d'Attaque]{Représentation chronologique de l'attaque modélisée selon les étapes de la Kill-Chain MITRE ATT\&CK.}
+    \label{fig:dashboard_timeline}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{media/screenshot_logs.png}
+    \caption[Flux de Logs en Direct]{Visualisation du flux des événements système et réseau en temps réel.}
+    \label{fig:dashboard_logs}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{media/screenshot_history.png}
+    \caption[Historique des Analyses]{Historique complet des analyses précédentes stocké de manière persistante (SQLite).}
+    \label{fig:dashboard_history}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{media/screenshot_health.png}
+    \caption[Diagnostic de Santé du Système]{Panneau de supervision vérifiant l'état des APIs externes et de la base vectorielle Qdrant.}
+    \label{fig:dashboard_health}
+\end{figure}
+
+
 \subsection{Exécution en mode CLI (Headless)}
 Bien que l'interface SOC fournisse une vue d'ensemble complète, Cyber-MAS peut également être exécuté de manière autonome via un terminal (CLI). Ce mode est particulièrement utile pour l'intégration dans des pipelines CI/CD ou pour l'exécution sur des serveurs distants dépourvus d'interface graphique.
 
@@ -1654,6 +1683,44 @@ Bien que l'interface SOC fournisse une vue d'ensemble complète, Cyber-MAS peut 
     \caption[Exécution de Cyber-MAS en mode console]{Exécution de Cyber-MAS en mode console (CLI), affichant le statut de l'analyse et la matrice des résultats.}
     \label{fig:cli_mode}
 \end{figure}
+
+Outre l'analyse complète démontrée ci-dessus, le mode CLI offre plusieurs commandes spécialisées pour différents cas d'usage :
+
+\textbf{Analyse Ciblée (Single-Agent)}
+\begin{lstlisting}[language=bash, basicstyle=\footnotesize\ttfamily\color{codeid}, caption={Analyse isolée d\'un fichier suspect via l\'Agent Email.}]
+$ python main.py --email suspicious.eml
+
+[EMAIL AGENT] Démarrage de l'analyse...
+[+] Extraction des en-têtes... OK (From: admin@paypal-update.com)
+[+] Recherche de similarité (FAISS)... Trouvé 2 correspondances (Score: 0.89)
+[+] Analyse LLM en cours...
+=> Verdict : PHISHING (Risque: 0.95)
+=> Raison  : Tentative de spoofing du domaine PayPal.
+\end{lstlisting}
+
+\textbf{Monitoring Continu (Watch Mode)}
+\begin{lstlisting}[language=bash, basicstyle=\footnotesize\ttfamily\color{codeid}, caption={Surveillance en temps réel d\'un fichier de logs système.}]
+$ python main.py --watch-log /var/log/auth.log
+
+[MONITOR] Surveillance active sur /var/log/auth.log (Ctrl+C pour quitter)
+[+] Nouvelle ligne détectée : "Failed password for root from 192.168.1.45"
+[+] Nouvelle ligne détectée : "Failed password for root from 192.168.1.45"
+[LOG AGENT] Anomalie détectée ! Déclenchement de l'analyse...
+=> Verdict : CRITICAL (Brute-force SSH)
+\end{lstlisting}
+
+\textbf{Analyse Rapide (\textit{Inline Text})}
+\begin{lstlisting}[language=bash, basicstyle=\footnotesize\ttfamily\color{codeid}, caption={Scan instantané d\'une adresse IP sans fichier source.}]
+$ python main.py --ip-text "203.0.113.42"
+
+[IP AGENT] Démarrage du scan sur 203.0.113.42...
+[+] OS Detection... Linux 3.x
+[+] Ports ouverts : 22 (SSH), 80 (HTTP)
+[+] CVE trouvées : CVE-2021-3156 (Score CVSS: 8.1)
+=> Verdict : VULNERABLE
+\end{lstlisting}
+
+
 
 \subsection{Génération Automatisée de Rapports}
 À l'issue de chaque analyse d'incident, l'Agent Corrélateur compile l'ensemble des données, des traces de raisonnement et des indicateurs de compromission (IoC) pour générer un rapport PDF professionnel. Ce rapport est ensuite distribué automatiquement aux équipes d'intervention pour une remédiation rapide.
