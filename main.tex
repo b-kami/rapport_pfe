@@ -1171,59 +1171,104 @@ Pour appréhender la complexité des interactions au sein du système Cyber-MAS,
     \centering
     \resizebox{\textwidth}{!}{
     \begin{tikzpicture}[
-        node distance=2cm and 2.5cm,
-        source/.style={cylinder, draw, shape border rotate=90, aspect=0.25, fill=gray!10, minimum height=1.5cm, minimum width=1.5cm, align=center, font=\sffamily\scriptsize, drop shadow},
-        dispatcher/.style={rectangle, draw, rounded corners, fill=purple!10, minimum width=3cm, minimum height=1.2cm, align=center, font=\sffamily\small\bfseries, drop shadow},
-        agent/.style={rectangle, draw, rounded corners, fill=blue!10, minimum width=2.5cm, minimum height=1.2cm, align=center, font=\sffamily\small, drop shadow},
-        correlator/.style={rectangle, draw, rounded corners, fill=red!10, minimum width=3.5cm, minimum height=1.2cm, align=center, font=\sffamily\small\bfseries, drop shadow},
-        db/.style={cylinder, draw, shape border rotate=90, aspect=0.25, fill=green!10, minimum height=1.5cm, minimum width=1.5cm, align=center, font=\sffamily\scriptsize, drop shadow},
+        node distance=1.5cm and 2cm,
+        every node/.style={font=\sffamily\small, align=center},
+        % Styles
+        user/.style={rectangle, draw, rounded corners, fill=green!10, minimum width=2cm, minimum height=0.8cm, drop shadow, font=\sffamily\small\bfseries},
+        dispatcher/.style={rectangle, draw, rounded corners, fill=purple!10, minimum width=4cm, minimum height=1cm, drop shadow, font=\sffamily\small\bfseries},
+        agentbox/.style={rectangle, draw, rounded corners=8pt, fill=white, minimum width=3.8cm, minimum height=4cm, drop shadow},
+        agentlabel/.style={rectangle, draw, rounded corners, fill=blue!10, minimum width=3cm, minimum height=0.7cm, font=\sffamily\scriptsize\bfseries},
+        module/.style={rectangle, draw, fill=gray!8, minimum width=2.8cm, minimum height=0.5cm, font=\sffamily\tiny, rounded corners=2pt},
+        correlator/.style={rectangle, draw, rounded corners, fill=red!10, minimum width=6cm, minimum height=1cm, drop shadow, font=\sffamily\small\bfseries},
+        db/.style={cylinder, draw, shape border rotate=90, aspect=0.25, fill=green!10, minimum height=1.2cm, minimum width=1.5cm, font=\sffamily\scriptsize, drop shadow, align=center},
+        dashboard/.style={rectangle, draw, rounded corners, fill=orange!10, minimum width=3cm, minimum height=0.8cm, drop shadow, font=\sffamily\small\bfseries},
+        inputsrc/.style={ellipse, draw, fill=yellow!10, minimum width=2cm, minimum height=0.8cm, font=\sffamily\scriptsize, align=center},
+        tasklist/.style={rectangle, draw, fill=gray!5, rounded corners, minimum width=3.5cm, minimum height=1.5cm, font=\sffamily\tiny, align=left},
         arrow/.style={->, >=stealth, thick},
+        darrow/.style={<->, >=stealth, thick, color=blue!70},
         dashedarrow/.style={->, >=stealth, thick, dashed}
     ]
 %
-    % Input sources
-    \node[source] (logs) {Logs ECU\\Syslog};
-    \node[source, below=1cm of logs] (net) {Trafic\\Réseau};
-    \node[source, below=1cm of net] (email) {Fichiers\\.eml};
+    % ===== BOTTOM: User =====
+    \node[user] (user) {Utilisateur SOC};
 %
-    % Dispatcher
-    \node[dispatcher, right=3cm of net] (dispatch) {Dispatcher asynchrone\\(FastAPI)};
+    % ===== Task list (right of user) =====
+    \node[tasklist, right=3cm of user] (tasklist) {
+        \textbf{Tâches possibles :}\\
+        \textbullet\ Soumettre un e-mail\\
+        \textbullet\ Attacher un fichier log\\
+        \textbullet\ Analyser une plage IP
+    };
+    \draw[dashedarrow] (user.east) -- (tasklist.west) node[midway, above, font=\sffamily\tiny] {Liste des tâches};
 %
-    % Agents
-    \node[agent, right=2.5cm of dispatch, yshift=2.5cm] (alog) {Agent Log};
-    \node[agent, right=2.5cm of dispatch] (aip) {Agent IP};
-    \node[agent, right=2.5cm of dispatch, yshift=-2.5cm] (aemail) {Agent Email};
+    % ===== DISPATCHER =====
+    \node[dispatcher, above=1.5cm of user] (dispatch) {Dispatcher Asynchrone (FastAPI)};
+    \draw[arrow] (user) -- (dispatch) node[midway, right, font=\sffamily\scriptsize] {Soumet une requête};
 %
-    % Correlator & DB
-    \node[correlator, right=3cm of aip] (corr) {Corrélateur Global\\\& Matrice MITRE};
-    \node[db, above=1.5cm of corr] (qdrant) {Vector DB\\(Qdrant)};
+    % ===== INPUT SOURCES (left of dispatcher) =====
+    \node[inputsrc, left=2.5cm of dispatch, yshift=1cm] (src_email) {Vérifier\\un e-mail};
+    \node[inputsrc, left=2.5cm of dispatch] (src_log) {Analyser les\\logs de sécurité};
+    \node[inputsrc, left=2.5cm of dispatch, yshift=-1cm] (src_ip) {Scanner une\\plage IP};
+    \draw[arrow] (dispatch.west) -- (src_log.east);
+    \draw[arrow] (dispatch.north west) -- (src_email.east);
+    \draw[arrow] (dispatch.south west) -- (src_ip.east);
 %
-    % End User
-    \node[rectangle, draw, fill=orange!10, rounded corners, right=2cm of corr, align=center, font=\sffamily\small, drop shadow] (soc) {Dashboard SOC\\(SSE)};
+    % ===== AGENTS (3 boxes above dispatcher) =====
+    % --- Agent Email ---
+    \node[agentbox, above=2cm of dispatch, xshift=-5.5cm] (box_email) {};
+    \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_email.north) {Agent Email};
+    \node[module] at ([yshift=0.5cm]box_email.center) (llm_email) {\textbf{LLM} (Raisonnement)};
+    \node[module] at (box_email.center) (tools_email) {\textbf{Tools} (Triggers)};
+    \node[module] at ([yshift=-0.5cm]box_email.center) (mem_email) {\textbf{Mémoire} (RAG)};
 %
-    % Connections
-    \draw[arrow] (logs) -- (dispatch.north west);
-    \draw[arrow] (net) -- (dispatch.west);
-    \draw[arrow] (email) -- (dispatch.south west);
+    % --- Agent Log ---
+    \node[agentbox, above=2cm of dispatch] (box_log) {};
+    \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_log.north) {Agent Analyseur de Logs};
+    \node[module] at ([yshift=0.5cm]box_log.center) (llm_log) {\textbf{LLM} (Raisonnement)};
+    \node[module] at (box_log.center) (tools_log) {\textbf{Tools} (Triggers)};
+    \node[module] at ([yshift=-0.5cm]box_log.center) (mem_log) {\textbf{Mémoire} (RAG)};
 %
-    \draw[arrow] (dispatch.north east) -- (alog.west) node[midway, above, sloped, font=\sffamily\scriptsize] {JSON};
-    \draw[arrow] (dispatch.east) -- (aip.west) node[midway, above, font=\sffamily\scriptsize] {JSON};
-    \draw[arrow] (dispatch.south east) -- (aemail.west) node[midway, below, sloped, font=\sffamily\scriptsize] {JSON};
+    % --- Agent IP ---
+    \node[agentbox, above=2cm of dispatch, xshift=5.5cm] (box_ip) {};
+    \node[agentlabel, anchor=south] at ([yshift=-0.3cm]box_ip.north) {Agent Analyseur IP};
+    \node[module] at ([yshift=0.5cm]box_ip.center) (llm_ip) {\textbf{LLM} (Raisonnement)};
+    \node[module] at (box_ip.center) (tools_ip) {\textbf{Tools} (Triggers)};
+    \node[module] at ([yshift=-0.5cm]box_ip.center) (mem_ip) {\textbf{Mémoire} (RAG)};
 %
-    \draw[arrow] (alog.east) -- (corr.north west);
-    \draw[arrow] (aip.east) -- (corr.west);
-    \draw[arrow] (aemail.east) -- (corr.south west);
+    % ===== Arrows from dispatcher to agents =====
+    \draw[arrow] (dispatch.north) -- (box_log.south) node[midway, right, font=\sffamily\scriptsize] {Logs Syslog};
+    \draw[arrow] (dispatch.north west) ++(0,0) -- (box_email.south) node[midway, left, font=\sffamily\scriptsize, sloped] {Fichier .eml};
+    \draw[arrow] (dispatch.north east) ++(0,0) -- (box_ip.south) node[midway, right, font=\sffamily\scriptsize, sloped] {Adresse IP};
 %
-    \draw[dashedarrow] (corr.east) -- (soc.west) node[midway, above, font=\sffamily\scriptsize] {Alerte XAI};
+    % ===== Annotations above agents =====
+    \node[above=0.3cm of box_email.north, font=\sffamily\tiny\itshape, text=gray] {Score de risque\\et de fraude};
+    \node[above=0.3cm of box_log.north, font=\sffamily\tiny\itshape, text=gray] {Score de risque\\et de fraude};
+    \node[above=0.3cm of box_ip.north, font=\sffamily\tiny\itshape, text=gray] {Rapport de\\scan consolidé};
 %
-    % Memory connections
-    \draw[<->, >=stealth, thick, color=blue!70] (alog.north east) -- (qdrant.south west);
-    \draw[<->, >=stealth, thick, color=blue!70] (aip.north east) -- (qdrant.south);
-    \draw[<->, >=stealth, thick, color=blue!70] (corr.north) -- (qdrant.south east);
+    % ===== CORRELATOR (above agents) =====
+    \node[correlator, above=2.5cm of box_log.north] (corr) {Corrélateur Global \& Système de Recommandation Multi-Contexte};
+%
+    % ===== Arrows from agents to correlator =====
+    \draw[arrow] (box_email.north) ++(0,0.6) -- (corr.south west);
+    \draw[arrow] (box_log.north) ++(0,0.6) -- (corr.south);
+    \draw[arrow] (box_ip.north) ++(0,0.6) -- (corr.south east);
+%
+    % ===== Vector DB (left of correlator) =====
+    \node[db, left=2cm of corr] (qdrant) {Vector DB\\(Qdrant)};
+    \draw[darrow] (corr.west) -- (qdrant.east) node[midway, above, font=\sffamily\tiny] {RAG};
+    \draw[darrow] (qdrant.south) -- ++(0,-1) -| ([xshift=-0.5cm]box_email.north) node[near start, left, font=\sffamily\tiny] {Mémoire};
+%
+    % ===== Dashboard SOC (right of correlator) =====
+    \node[dashboard, right=2cm of corr] (soc) {Dashboard SOC\\(SSE temps réel)};
+    \draw[dashedarrow] (corr.east) -- (soc.west) node[midway, above, font=\sffamily\tiny] {Alerte XAI};
+%
+    % ===== Output (above correlator) =====
+    \node[rectangle, draw, rounded corners, fill=yellow!15, above=1cm of corr, minimum width=5cm, minimum height=0.7cm, drop shadow, font=\sffamily\scriptsize\bfseries] (output) {Recommandations sur les menaces partagées par les agents};
+    \draw[arrow] (corr.north) -- (output.south);
 %
     \end{tikzpicture}
     }
-    \caption{Diagramme d'architecture globale du système distribué Cyber-MAS, illustrant le flux asynchrone des données et la corrélation multi-agents.}
+    \caption{Diagramme d'architecture globale du système distribué Cyber-MAS, illustrant le flux asynchrone depuis l'utilisateur jusqu'au Corrélateur Global, en passant par le Dispatcher et les agents cognitifs dotés chacun de modules LLM, Tools et Mémoire vectorielle (RAG).}
     \label{fig:architecture_cybermas}
 \end{figure}
 
