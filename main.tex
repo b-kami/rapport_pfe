@@ -98,11 +98,12 @@
 \definecolor{lightgray}{RGB}{240, 240, 240}
 
 % ===================== EN-TETES / PIEDS DE PAGE =====================
-% Numérotation en bas de page (ENSAJ)
-\pagestyle{fancy}
+% Numérotation en bas de page, centrée (ENSAJ)
 \fancyhf{}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
+% Démarre sans numérotation (pages de garde, TDM, etc.)
+\pagestyle{empty}
 
 % ===================== FORMATAGE DES TITRES =====================
 \titleformat{\chapter}[display]
@@ -285,33 +286,7 @@ Nearshors - Casablanca}
 \vspace{0.15cm}
 \vspace{0.15cm}
 
-% ===== JURY =====
-\begin{flushleft}
-    {\scriptsize \textbf{Soutenu le ../06/2026 devant le jury :}}
-    \\[-0.4cm]
-    \noindent\textcolor{separatorcolor}{\rule{\linewidth}{1pt}}\\[-0.1cm]
-\end{flushleft}
-
-\vspace{0.15cm}
-
-{\scriptsize
-\begin{tabular}{@{}l@{\hspace{0.2cm}}
-  >{\centering\arraybackslash}p{3cm}
-  @{\hspace{0.2cm}}l@{}}
-    Prof. Mohamed \textsc{Fertat} &
-    \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    Prof. Aziz \textsc{Dahbi} &
-    \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    Prof. Mohamed \textsc{El Jourmi} &
-    \dotfill &
-    Professeur à l'ENSA d'El Jadida \\[0.2cm]
-    M. Hatim \textsc{Cherradi} &
-    \dotfill &
-    Ingénieur Chef de Projet à Nokia Rabat \\
-\end{tabular}
-}
+% [JURY - À COMPLÉTER ULTÉRIEUREMENT LORSQUE L'ÉCOLE L'ANNONCERA]
 
 \vspace{0.15cm}
 \vspace{0.15cm}
@@ -654,6 +629,7 @@ Enfin, je ne saurais clôturer cette page sans adresser mes remerciements les pl
 %              9. INTRODUCTION GENERALE
 % =====================================================================
 \newpage
+\pagestyle{fancy}
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
@@ -1860,7 +1836,6 @@ SANS Institute, ``Metrics for Security Operations Centers (SOC): What to Measure
 %              LISTE DES ABREVIATIONS
 % =====================================================================
 \newpage
-\thispagestyle{empty}
 \chapter*{Liste des Abréviations}
 \addcontentsline{toc}{chapter}{Liste des Abréviations}
 
